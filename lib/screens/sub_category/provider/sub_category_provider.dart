@@ -51,7 +51,6 @@ class SubCategoryProvider extends ChangeNotifier {
       return;
     }
   }
-
   updateSubCategory() async {
     try {
       if (subCategoryForUpdate != null) {
@@ -85,8 +84,6 @@ class SubCategoryProvider extends ChangeNotifier {
       SnackBarHelper.showErrorSnackBar('An error ocurred: $e');
     }
   }
-
-
   //DeleteCategory
   deleteSubCategory(SubCategory subcategory) async {
     try {
@@ -117,6 +114,7 @@ class SubCategoryProvider extends ChangeNotifier {
       addSubCategory();
     }
   }
+
 
   setDataForUpdateSubCategory(SubCategory? subCategory) {
     if (subCategory != null) {

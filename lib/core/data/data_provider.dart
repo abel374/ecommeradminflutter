@@ -64,6 +64,8 @@ class DataProvider extends ChangeNotifier {
   DataProvider() {
     getAllCategory();
     getAllSubCategory();
+    getAllBrands();
+    getAllVariantType();
   }
 
 //Oter todas as categorias
@@ -127,8 +129,7 @@ class DataProvider extends ChangeNotifier {
     }
     return _filteredSubCategories;
   }
-
-//Filtro Subcategorias  <>
+  //Filtro Subcategorias  <>
 
   void fillterSubCateories(String keyword) {
     if (keyword.isEmpty) {
@@ -143,13 +144,81 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//TODO: deve concluir obter todas as marcas
+//obter todas as marcas  <>
+  Future<List<Brand>> getAllBrands({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'brands');
+      if (response.isOk) {
+        ApiResponse<List<Brand>> apiResponse =
+            ApiResponse<List<Brand>>.fromJson(
+                response.body,
+                (json) => (json as List)
+                    .map((item) => Brand.fromJson(item))
+                    .toList());
+        _allBrands = apiResponse.data ?? [];
+        _filteredBrands = List.from(_allBrands);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _filteredBrands;
+  }
 
-//TODO: deve concluir o filtro Marcas
+//filtro Marcas
+  void fillterBrands(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredBrands = List.from(_allBrands);
+    } else {
+      final lowerkeyword = keyword.toLowerCase();
 
-//TODO: deve concluir obter todos os tipos de variantes
+      _filteredBrands = _allBrands.where((brand) {
+        return (brand.name ?? '').toLowerCase().contains(lowerkeyword);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
-//TODO: deve concluir o filtro Tipos de variantes
+//obter todos os tipos de variantes <>
+
+  Future<List<VariantType>> getAllVariantType({bool showSnack = false}) async {
+    try {
+      Response response = await service.getItems(endpointUrl: 'variantTypes');
+      if (response.isOk) {
+        ApiResponse<List<VariantType>> apiResponse =
+            ApiResponse<List<VariantType>>.fromJson(
+                response.body,
+                (json) => (json as List)
+                    .map((item) => VariantType.fromJson(item))
+                    .toList());
+        _allVariantTypes = apiResponse.data ?? [];
+        _filteredVariantTypes = List.from(_allVariantTypes);
+        notifyListeners();
+        if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+        return _filteredVariantTypes;
+      }
+    } catch (e) {
+      if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
+      rethrow;
+    }
+    return _allVariantTypes;
+  }
+
+//filtro Tipos de variantes
+  void filltervarientType(String keyword) {
+    if (keyword.isEmpty) {
+      _filteredVariantTypes = List.from(_allVariantTypes);
+    } else {
+      final lowerkeyword = keyword.toLowerCase();
+
+      _filteredVariantTypes = _allVariantTypes.where((brand) {
+        return (brand.name ?? '').toLowerCase().contains(lowerkeyword);
+      }).toList();
+    }
+    notifyListeners();
+  }
 
 //TODO: deve concluir obter todas as variantes
 
