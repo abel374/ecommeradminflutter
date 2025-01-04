@@ -29,7 +29,7 @@ class CategoryScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              "My Categories",
+                              "Minhas Categorias",
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
@@ -44,7 +44,7 @@ class CategoryScreen extends StatelessWidget {
                               showAddCategoryForm(context, null);
                             },
                             icon: const Icon(Icons.add),
-                            label: const Text("Add New"),
+                            label: const Text("Adicionar novo"),
                           ),
                           const Gap(20),
                           IconButton(

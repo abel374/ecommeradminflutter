@@ -1,3 +1,5 @@
+import 'package:ecommerce/utility/extensions.dart';
+
 import '../../../core/data/data_provider.dart';
 import '../../../models/sub_category.dart';
 import 'add_sub_category_form.dart';
@@ -8,7 +10,6 @@ import '../../../utility/color_list.dart';
 import '../../../utility/constants.dart';
 import '../../category/components/add_category_form.dart';
 
-
 class SubCategoryListSection extends StatelessWidget {
   const SubCategoryListSection({
     Key? key,
@@ -17,16 +18,16 @@ class SubCategoryListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "All SubCategory",
+            "Todas as subcategorias",
             style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
@@ -36,21 +37,21 @@ class SubCategoryListSection extends StatelessWidget {
                 return DataTable(
                   columnSpacing: defaultPadding,
                   // minWidth: 600,
-                  columns: [
+                  columns: const [
                     DataColumn(
-                      label: Text("SubCategory Name"),
+                      label: Text("Nome da subcategoria"),
                     ),
                     DataColumn(
-                      label: Text("Category"),
+                      label: Text("Categoria"),
                     ),
                     DataColumn(
-                      label: Text("Added Date"),
+                      label: Text("Data adicionada"),
                     ),
                     DataColumn(
-                      label: Text("Edit"),
+                      label: Text("Editar"),
                     ),
                     DataColumn(
-                      label: Text("Delete"),
+                      label: Text("Excluir"),
                     ),
                   ],
                   rows: List.generate(
@@ -59,10 +60,12 @@ class SubCategoryListSection extends StatelessWidget {
                       dataProvider.subCategories[index],
                       index + 1,
                       edit: () {
-                        showAddSubCategoryForm(context, dataProvider.subCategories[index]);
+                        showAddSubCategoryForm(
+                            context, dataProvider.subCategories[index]);
                       },
                       delete: () {
-                        //TODO: should complete call deleteSubCategory
+                        context.subCategoryProvider.deleteSubCategory(
+                            dataProvider.subCategories[index]);
                       },
                     ),
                   ),
@@ -76,7 +79,8 @@ class SubCategoryListSection extends StatelessWidget {
   }
 }
 
-DataRow subCategoryDataRow(SubCategory subCatInfo, int index, {Function? edit, Function? delete}) {
+DataRow subCategoryDataRow(SubCategory subCatInfo, int index,
+    {Function? edit, Function? delete}) {
   return DataRow(
     cells: [
       DataCell(
@@ -104,7 +108,7 @@ DataRow subCategoryDataRow(SubCategory subCatInfo, int index, {Function? edit, F
           onPressed: () {
             if (edit != null) edit();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.edit,
             color: Colors.white,
           ))),
@@ -112,7 +116,7 @@ DataRow subCategoryDataRow(SubCategory subCatInfo, int index, {Function? edit, F
           onPressed: () {
             if (delete != null) delete();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.delete,
             color: Colors.red,
           ))),
